@@ -8,3 +8,4 @@ Uses textembedding-gecko@001 for embedding and local FAISS for the vector databa
 
 Using UnstructuredURLLoader, I found that some blogs and documents would not load and there would be no data. After using SeleniumURLLoader instead, it would load a random selection of documentation with no issues.
 
+![alt text](image.png)
