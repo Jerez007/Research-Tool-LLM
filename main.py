@@ -5,11 +5,10 @@ import time
 from langchain.llms.vertexai import VertexAI
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import UnstructuredURLLoader
+from langchain_community.document_loaders import SeleniumURLLoader
 from langchain_community.embeddings import VertexAIEmbeddings
 from langchain_community.vectorstores import FAISS
-import faiss
-
+# import faiss
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -35,14 +34,13 @@ if process_url_clicked:
     os.makedirs(file_path)
   
   # load data
-  loader = UnstructuredURLLoader(urls=urls)
+  loader = SeleniumURLLoader(urls=urls)
   main_placeholder.text("Loading data...")
   data = loader.load()
-  print("loaded data: ******", data[:500])
+
   # split data
   text_splitter = RecursiveCharacterTextSplitter(
     separators=['\n\n', '\n', '. ', ','],
-    # separators=['\n', '. ', ','],
     chunk_size=1000
   )
   main_placeholder.text("Text Splitter...Started...")
@@ -55,9 +53,6 @@ if process_url_clicked:
     vectorstore_vertexai = FAISS.from_documents(docs, embeddings)
     main_placeholder.text("Embedding Vector Started Building...✅✅✅")
 
-    # Save the FAISS index to a pickel file
-    # with open(file_path, 'wb') as f:
-    #   pickle.dump(vectorstore_vertexai, f)
     # https://stackoverflow.com/questions/77605224/cannot-pickle-thread-rlock-object-while-serializing-faiss-object
     vectorstore_vertexai.save_local(file_path)
 
@@ -65,7 +60,6 @@ if process_url_clicked:
 query = main_placeholder.text_input("Questions: ")
 if query:
   if os.path.exists(file_path):
-    # with open(file_path, 'rb') as f:
       vectorstore = FAISS.load_local(file_path, embeddings, allow_dangerous_deserialization=True)
       chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=vectorstore.as_retriever())
       result = chain({"question": query}, return_only_outputs=True)
