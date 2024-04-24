@@ -7,7 +7,7 @@ faiss-cpu==1.7.4
 # libmagic==1.0
 # python-magic==0.4.27
 # python-magic-bin==0.4.14
-OpenAI == 0.28.0
+# OpenAI == 0.28.0 
 langchain-google-vertexai==0.1.0
 langsmith==0.1.17
 google-cloud-aiplatform==1.42.1
