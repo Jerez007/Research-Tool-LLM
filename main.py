@@ -26,7 +26,7 @@ file_path = 'faiss_store'
 
 main_placeholder = st.empty()
 llm = VertexAI(temperature=0.9, max_tokens=500)
-model_name = "textembedding-gecko@001" 
+model_name = "textembedding-gecko@003" 
 embeddings = VertexAIEmbeddings(model_name=model_name)
 
 if process_url_clicked:
